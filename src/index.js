@@ -32,16 +32,44 @@ const esquery = require('esquery');
  * @property {string[]} warnings
  */
 
-const fetchQuery = esquery.parse(
-  'CallExpression:has(Identifier[name="fetch"])'
-);
+const queries = {
+  // Todo: For `TemplateLiteral`, grab multiple (unless a single)
+  // Todo: For `BinaryExpression`, grab multiple
+  // Todo: Handle plain `Identifier` inside array
+  // Todo: Handle `Literal`
+
+  // Array expression to get at `elements`
+  [
+  // `callee` -> `MemberExpression.object.ArrayExpression`
+  // `arguments` -> `ArrowFunctionExpression`
+  'CallExpression:matches(' +
+    '[callee.type="MemberExpression"]' +
+    '[callee.object.type="ArrayExpression"]' +
+    '[arguments.0.type="ArrowFunctionExpression"]' +
+    '[arguments.0.body.type="BlockStatement"]' +
+    '[arguments.0.body.body.0.type="ReturnStatement"]' +
+    '[arguments.0.body.body.0.argument.type="CallExpression"]' +
+    '[arguments.0.body.body.0.argument.callee.type="Identifier"]' +
+    '[arguments.0.body.body.0.argument.callee.name="fetch"]' +
+  ') > MemberExpression > ArrayExpression'
+  ] (node) {
+    return node.elements.map((element) => {
+      return element.value;
+    });
+  }
+};
+
+const parsedQueries = Object.entries(queries).map(([query, method]) => {
+  const parsedQuery = esquery.parse(query);
+  return {parsedQuery, method};
+});
 
 /**
  * @param {string} file
  * @returns {Promise<BuiltWorkboxInfo>}
  */
 const findESResources = async (file) => {
-  const esResources = [];
+  const esResources = new Set();
   const filesArr = await esFileTraverse({
     file,
     node: true,
@@ -51,60 +79,28 @@ const findESResources = async (file) => {
       if (type !== 'enter') {
         return;
       }
-      // Todo: Could bake into `es-file-traverse` a `traverse` here with
-      //   `esquery.traverse.bind(esquery, ast)`
-      esquery.traverse(
-        ast,
-        fetchQuery,
-        // Todo: Document limitation that we aren't allowing a single
-        //   dynamic variable that we follow everywhere
-        (node /* , parent, ancestry */) => {
-          console.log('pathArg.type', node);
-          const pathArg = node.arguments[0];
-          switch (pathArg.type) {
-          /*
-          case 'TemplateLiteral':
-            // Todo: Grab multiple (unless a single)
-            esResources.push();
-            break;
-          case 'BinaryExpression':
-            // Todo: Grab multiple
-            esResources.push();
-            break;
-          */
-          case 'Literal':
-            if (pathArg.name && esquery.matches(
-              node,
-              'CallExpression:has(MemberExpression.object[' +
-              'type="ArrayExpression"]) > ArrowFunctionExpression > ' +
-              'BlockStatement > ReturnStatement'
-            )) {
-              esquery.traverse(
-                pathArg,
-                'CallExpression:has(MemberExpression.object' +
-                '[type="ArrayExpression"])',
-                (nde) => {
-                  nde.elements.forEach((element) => {
-                    esResources.push(element.value);
-                  });
-                }
-              );
-              break;
-            }
-            esResources.push(pathArg.value);
-            break;
-          default:
-            throw new Error(`Unexpected arg type: ${pathArg.type}`);
+
+      parsedQueries.forEach(({parsedQuery, method}) => {
+        esquery.traverse(
+          ast,
+          parsedQuery,
+          (node /* , parent, ancestry */) => {
+            // console.log('node', node);
+            method(node).forEach((result) => {
+              esResources.add(result);
+            });
           }
-        }
-      );
+        );
+      });
     }
   });
 
   // Imported source files themselves
-  esResources.push(...filesArr);
+  filesArr.forEach((_file) => {
+    esResources.add(_file);
+  });
 
-  return esResources;
+  return [...esResources];
 };
 
 module.exports = findESResources;

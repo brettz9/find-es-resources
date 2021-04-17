@@ -8,7 +8,9 @@ module.exports = {
       'console',
       'Error',
       'fetch',
-      'Promise.all'
+      'Object.entries',
+      'Promise.all',
+      'Set'
     ]
   },
   overrides: [

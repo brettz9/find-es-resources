@@ -12,8 +12,11 @@ application fetches, etc.
 ## Presently supported AST for detection
 
 Because we wish to avoid grabbing strings which are not file resources, we
-need to whitelist the locations where we can expect to find files. PRs are
-welcome (with tests) for other structures.
+need to whitelist the JavaScript structures where we can expect to find
+files (and we can't follow variables everywhere--literals are expected to be
+found at a predictable location).
+
+PRs are welcome (with tests) for other structures.
 
 - `fetch` (e.g., for polyglot usage, ala `node-fetch`) - Literals within
     an array *directly* supplied to a `map` call which returns the result of
