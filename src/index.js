@@ -40,10 +40,16 @@ const parsedQueries = Object.entries(queries).map(([query, getPaths]) => {
 });
 
 /**
+ * @external EsFileTraverseOptions
+ * @see {@link https://github.com/brettz9/es-file-traverse}
+ */
+
+/**
  * @param {string} file
+ * @param {external:EsFileTraverseOptions} esFileTraverseOptions
  * @returns {Promise<BuiltWorkboxInfo>}
  */
-const findESResources = async (file) => {
+const findESResources = async (file, esFileTraverseOptions) => {
   const esResources = new Set();
   const filesArr = await esFileTraverse({
     file,
@@ -67,7 +73,8 @@ const findESResources = async (file) => {
           }
         );
       });
-    }
+    },
+    ...esFileTraverseOptions
   });
 
   // Imported source files themselves

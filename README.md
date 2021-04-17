@@ -36,16 +36,17 @@ await Promise.all([
 })();
 ```
 
-## See also
-
-- [find-resources](https://www.npmjs.com/package/find-resources) - For resource
-    discovery within parsed HTML and CSS
 
 ## Install
 
 ```shell
 npm i find-es-resources
 ```
+
+## See also
+
+- [find-resources](https://www.npmjs.com/package/find-resources) - For resource
+    discovery within parsed HTML and CSS
 
 ## Changelog
 

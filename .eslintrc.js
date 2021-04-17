@@ -19,6 +19,10 @@ module.exports = {
       rules: {
         strict: 'off'
       }
+    },
+    {
+      files: 'test/fixtures/**',
+      extends: ['ash-nazg/sauron-node-overrides']
     }
   ],
   env: {

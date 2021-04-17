@@ -1,4 +1,4 @@
-'use strict';
+/* eslint-disable import/unambiguous -- Test file */
 
 (async () => {
 await Promise.all([
