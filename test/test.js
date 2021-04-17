@@ -15,9 +15,10 @@ function getFixturePath (file) {
 describe('findESResources', function () {
   it('Finds resources', async function () {
     const resources = await findESResources(getFixturePath('fetches.js'));
-    expect(resources).to.deep.equal([
+    expect(resources).to.include.members([
       './test1.json',
       './test2.json'
     ]);
+    expect(resources[2]).to.match(/test\/fixtures\/fetches\.js/u);
   });
 });
