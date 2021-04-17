@@ -58,8 +58,3 @@ The changelog can be found on [CHANGES.md](./CHANGES.md).
 [contributors](https://github.com/brettz9/find-es-resources/graphs/contributors).
 
 MIT License, see the included [LICENSE-MIT.tx](LICENSE-MIT.txt) file.
-
-## To-dos
-
-- Fix bug (with `es-file-traverse`?) re: imported files not working when
-    multiple tests run (race condition?)

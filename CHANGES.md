@@ -1,5 +1,10 @@
 # CHANGES for `find-es-resources`
 
+## 0.2.1
+
+- npm: Update `es-file-traverse`
+- npm: Update devDeps.
+
 ## 0.2.0
 
 - Enhancement: Adds `es-file-traverse` option for customizing its behavior
