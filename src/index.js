@@ -59,9 +59,9 @@ const queries = {
   }
 };
 
-const parsedQueries = Object.entries(queries).map(([query, method]) => {
+const parsedQueries = Object.entries(queries).map(([query, getPaths]) => {
   const parsedQuery = esquery.parse(query);
-  return {parsedQuery, method};
+  return {parsedQuery, getPaths};
 });
 
 /**
@@ -80,13 +80,13 @@ const findESResources = async (file) => {
         return;
       }
 
-      parsedQueries.forEach(({parsedQuery, method}) => {
+      parsedQueries.forEach(({parsedQuery, getPaths}) => {
         esquery.traverse(
           ast,
           parsedQuery,
           (node /* , parent, ancestry */) => {
             // console.log('node', node);
-            method(node).forEach((result) => {
+            getPaths(node).forEach((result) => {
               esResources.add(result);
             });
           }
