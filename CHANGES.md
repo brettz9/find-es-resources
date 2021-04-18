@@ -1,5 +1,9 @@
 # CHANGES for `find-es-resources`
 
+## ?
+
+- Fix: Avoid chance for `file` or `callback` being overridden.
+
 ## 0.2.1
 
 - npm: Update `es-file-traverse`

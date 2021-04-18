@@ -52,9 +52,9 @@ const parsedQueries = Object.entries(queries).map(([query, getPaths]) => {
 const findESResources = async (file, esFileTraverseOptions) => {
   const esResources = new Set();
   const filesArr = await esFileTraverse({
-    file,
     node: true,
-
+    ...esFileTraverseOptions,
+    file,
     // excludePathExpression: '',
     callback (type, {ast}) {
       if (type !== 'enter') {
@@ -73,8 +73,7 @@ const findESResources = async (file, esFileTraverseOptions) => {
           }
         );
       });
-    },
-    ...esFileTraverseOptions
+    }
   });
 
   // Imported source files themselves
