@@ -1,6 +1,6 @@
 {
   "name": "find-es-resources",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "author": "Brett Zamir <brettz9@yahoo.com>",
   "contributors": [],
   "description": "Find resource files within JavaScript files",
@@ -35,11 +35,11 @@
     "esquery": "^1.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.15",
+    "@babel/core": "^7.13.16",
     "@brettz9/eslint-plugin": "^1.0.3",
     "chai": "^4.3.4",
     "eslint": "^7.24.0",
-    "eslint-config-ash-nazg": "29.10.0",
+    "eslint-config-ash-nazg": "29.11.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-array-func": "^3.1.7",
     "eslint-plugin-compat": "^3.9.0",
@@ -53,7 +53,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-radar": "^0.2.1",
-    "eslint-plugin-unicorn": "^29.0.0",
+    "eslint-plugin-unicorn": "^30.0.0",
     "mocha": "^8.3.2",
     "nyc": "^15.1.0"
   }

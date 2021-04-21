@@ -1,8 +1,11 @@
 # CHANGES for `find-es-resources`
 
-## ?
+## 0.3.0
 
+- Enhancement: Support `queryOptions` object argument with `queryModule`
+    property to add to queries
 - Fix: Avoid chance for `file` or `callback` being overridden.
+- npm: Update devDeps.
 
 ## 0.2.1
 

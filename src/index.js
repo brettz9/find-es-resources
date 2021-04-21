@@ -20,10 +20,33 @@
  * })();
  */
 
+const path = require('path');
+
 const {traverse: esFileTraverse} = require('es-file-traverse');
 const esquery = require('esquery');
 
 const queries = require('./queries.js');
+
+/**
+* @typedef {string} queryASTString
+*/
+
+/**
+* @callback NodeValueRetriever
+* @param {ASTNode} node
+* @returns {string[]}
+*/
+
+/**
+ * @param {Object<queryASTString,NodeValueRetriever>} _queries
+ * @returns {{parsedQuery: ESQueryParsed, getPaths: NodeValueRetriever}[]}
+ */
+function parseQueries (_queries) {
+  return Object.entries(_queries).map(([query, getPaths]) => {
+    const parsedQuery = esquery.parse(query);
+    return {parsedQuery, getPaths};
+  });
+}
 
 /**
  * See {@link https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.getManifest}.
@@ -34,10 +57,7 @@ const queries = require('./queries.js');
  * @property {string[]} warnings
  */
 
-const parsedQueries = Object.entries(queries).map(([query, getPaths]) => {
-  const parsedQuery = esquery.parse(query);
-  return {parsedQuery, getPaths};
-});
+const parsedQueries = parseQueries(queries);
 
 /**
  * @external EsFileTraverseOptions
@@ -47,9 +67,12 @@ const parsedQueries = Object.entries(queries).map(([query, getPaths]) => {
 /**
  * @param {string} file
  * @param {external:EsFileTraverseOptions} esFileTraverseOptions
+ * @param {{queryModule: string}} queryOptions
  * @returns {Promise<BuiltWorkboxInfo>}
  */
-const findESResources = async (file, esFileTraverseOptions) => {
+const findESResources = async (
+  file, esFileTraverseOptions, queryOptions = {}
+) => {
   const esResources = new Set();
   const filesArr = await esFileTraverse({
     node: true,
@@ -61,7 +84,18 @@ const findESResources = async (file, esFileTraverseOptions) => {
         return;
       }
 
-      parsedQueries.forEach(({parsedQuery, getPaths}) => {
+      const _parsedQueries = queryOptions.queryModule
+        // eslint-disable-next-line max-len -- Long
+        // eslint-disable-next-line import/no-dynamic-require, node/global-require -- Runtime-specified
+        ? [...parsedQueries, ...parseQueries(require(
+          path.join(
+            process.cwd(),
+            queryOptions.queryModule
+          )
+        ))]
+        : parsedQueries;
+
+      _parsedQueries.forEach(({parsedQuery, getPaths}) => {
         esquery.traverse(
           ast,
           parsedQuery,

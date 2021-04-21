@@ -33,4 +33,19 @@ describe('findESResources', function () {
     expect(resources[2]).to.match(/test\/fixtures\/importer\.js/u);
     expect(resources[3]).to.match(/test\/fixtures\/fetches\.js/u);
   });
+
+  it('Finds resources (queryModule)', async function () {
+    const resources = await findESResources(
+      getFixturePath('file-with-custom-items.js'), null, {
+        queryModule: './test/fixtures/queryModule.js'
+      }
+    );
+    expect(resources).to.have.lengthOf(4);
+    expect(resources).to.include.members([
+      './test1.json',
+      './test2.json',
+      './test7.json'
+    ]);
+    expect(resources[3]).to.match(/test\/fixtures\/file-with-custom-items\.js/u);
+  });
 });

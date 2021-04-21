@@ -23,6 +23,10 @@ module.exports = {
     {
       files: 'test/fixtures/**',
       extends: ['ash-nazg/sauron-node-overrides']
+    },
+    {
+      files: 'test/fixtures/queryModule.js',
+      extends: ['ash-nazg/sauron-node-script-overrides']
     }
   ],
   env: {
