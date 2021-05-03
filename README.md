@@ -51,6 +51,7 @@ const arrayOfFileStrings = await findESResources(
   filePath,
   // See the `es-file-traverse` package:
   //  https://github.com/brettz9/es-file-traverse
+  // Can be an empty object
   esFileTraverseOptions,
 
   // Point to a CJS file exporting an object with string selectors as keys
