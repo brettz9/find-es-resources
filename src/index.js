@@ -48,15 +48,6 @@ function parseQueries (_queries) {
   });
 }
 
-/**
- * See {@link https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.getManifest}.
- * @typedef {PlainObject} BuiltWorkboxInfo
- * @property {number} count
- * @property {string[]} filePaths
- * @property {number} size
- * @property {string[]} warnings
- */
-
 const parsedQueries = parseQueries(queries);
 
 /**
@@ -68,7 +59,7 @@ const parsedQueries = parseQueries(queries);
  * @param {string} file
  * @param {external:EsFileTraverseOptions} esFileTraverseOptions
  * @param {{queryModule: string}} queryOptions
- * @returns {Promise<BuiltWorkboxInfo>}
+ * @returns {Promise<string[]>}
  */
 const findESResources = async (
   file, esFileTraverseOptions, queryOptions = {}

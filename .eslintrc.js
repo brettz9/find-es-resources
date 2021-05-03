@@ -16,7 +16,17 @@ module.exports = {
   overrides: [
     {
       files: '*.md/*.js',
+      globals: {
+        findESResources: true,
+        filePath: true,
+        esFileTraverseOptions: true,
+        queryOptions: true,
+        moduleString: true,
+        getResourceStringsOutOfNode: true,
+        getResourceStringsAlso: true
+      },
       rules: {
+        'no-unused-vars': ['error', {varsIgnorePattern: 'arrayOfFileStrings'}],
         strict: 'off'
       }
     },

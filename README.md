@@ -36,11 +36,40 @@ await Promise.all([
 })();
 ```
 
-
 ## Install
 
 ```shell
 npm i find-es-resources
+```
+
+## API
+
+```js
+(async () => {
+const arrayOfFileStrings = await findESResources(
+  // File as a string path
+  filePath,
+  // See the `es-file-traverse` package:
+  //  https://github.com/brettz9/es-file-traverse
+  esFileTraverseOptions,
+
+  // Point to a CJS file exporting an object with string selectors as keys
+  //   to functions which accept a node and return the string resources.
+  {
+    queryModule: moduleString
+  }
+);
+})();
+
+// Module pointed to by `moduleString`:
+module.exports = {
+  'an > AST > Selector' (node) {
+    return getResourceStringsOutOfNode(node);
+  },
+  'another AST Selector' (node) {
+    return getResourceStringsAlso(node);
+  }
+};
 ```
 
 ## See also
