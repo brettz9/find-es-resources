@@ -1,5 +1,9 @@
 # CHANGES for `find-es-resources`
 
+## 1.0.1
+
+- Fix: Absent `removeBasePath` or `addBasePath`
+
 ## 1.0.0
 
 - Breaking change: Uses native ESM with `exports`

@@ -60,7 +60,7 @@ const parsedQueries = parseQueries(queries);
  * })();
  */
 const findESResources = async ({
-  input, removeBasePath, addBasePath,
+  input, removeBasePath = '', addBasePath = '',
   esFileTraverseOptions = {}, queryOptions = {}
 } = {}) => {
   const esResources = new Set();
@@ -142,7 +142,8 @@ const saveESResources = async ({
   esFileTraverseOptions, queryOptions
 }) => {
   const resources = await findESResources({
-    input, esFileTraverseOptions, queryOptions
+    input, removeBasePath, addBasePath,
+    esFileTraverseOptions, queryOptions
   });
   await writeFile(
     output,
