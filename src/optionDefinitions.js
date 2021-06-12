@@ -1,0 +1,78 @@
+import {readFile} from 'fs/promises';
+
+const pkg = JSON.parse(
+  await readFile(new URL('../package.json', import.meta.url))
+);
+
+const JSONParser = JSON.parse.bind(JSON);
+
+const getChalkTemplateSingleEscape = (s) => {
+  return s.replace(/[{}\\]/gu, (ch) => {
+    return `\\u${ch.codePointAt().toString(16).padStart(4, '0')}`;
+  });
+};
+
+// Todo: We really need a comamnd-line-args-TO-typedef-jsdoc generator!
+//  Might see about https://github.com/dsheiko/bycontract/
+/* eslint-disable jsdoc/require-property -- Should get property from schema */
+/**
+* @typedef {PlainObject} PreassembledWorkerBoxesOptions
+*/
+/* eslint-enable jsdoc/require-property -- Should get property from schema */
+
+const optionDefinitions = [
+  {
+    name: 'output', type: String, alias: 'o',
+    defaultOption: true,
+    description: 'File to which to save the output. Required.',
+    typeLabel: '{underline file path}'
+  },
+  {
+    name: 'input', type: String, alias: 'i',
+    description: 'Input file. Will default to checking `exports.browser`.',
+    typeLabel: '{underline path to input file}'
+  },
+  {
+    name: 'removeBasePath', type: String,
+    description: 'Base path used to strip off a full file path.',
+    typeLabel: '{underline path}'
+  },
+  {
+    name: 'addBasePath', type: String,
+    description: 'URL base path added on to path (after any ' +
+      '`removeBasePath`).',
+    typeLabel: '{underline path}'
+  },
+  {
+    name: 'esFileTraverseOptions', type: JSONParser,
+    description: 'Options to pass to `es-file-traverse`. Note that `file` ' +
+      'and `callback` on this object have no effect. Defaults to ' +
+      getChalkTemplateSingleEscape(
+        '`{"node": "true"}`'
+      ) +
+      ' and use of our main `file` and a special `callback`.',
+    typeLabel: '{underline JSON object string}'
+  },
+  {
+    name: 'queryOptions', type: JSONParser,
+    description: 'Additional `queryOptions`. ' +
+      'Note that any items discovered on the object returned by the ' +
+      'requiring of the `queryModule` module will be merged onto the ' +
+      'built-in queries of `find-es-resources`.',
+    typeLabel: '{underline JSON object string}'
+  }
+];
+
+const cliSections = [
+  {
+    // Add italics: `{italic textToItalicize}`
+    content: pkg.description +
+      '\n\n{italic find-es-resources --input path/to/file.js ' +
+        '--output path/to/file.js}'
+  },
+  {
+    optionList: optionDefinitions
+  }
+];
+
+export {optionDefinitions as definitions, cliSections as sections};

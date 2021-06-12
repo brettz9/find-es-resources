@@ -45,10 +45,12 @@ npm i find-es-resources
 ## API
 
 ```js
+import {findESResources} from 'find-es-resources';
+
 (async () => {
-const arrayOfFileStrings = await findESResources(
+const arrayOfFileStrings = await findESResources({
   // File as a string path
-  filePath,
+  input: filePath,
   // See the `es-file-traverse` package:
   //  https://github.com/brettz9/es-file-traverse
   // Can be an empty object
@@ -56,14 +58,14 @@ const arrayOfFileStrings = await findESResources(
 
   // Point to a CJS file exporting an object with string selectors as keys
   //   to functions which accept a node and return the string resources.
-  {
+  queryOptions: {
     queryModule: moduleString
   }
-);
+});
 })();
 
 // Module pointed to by `moduleString`:
-module.exports = {
+const queries = {
   'an > AST > Selector' (node) {
     return getResourceStringsOutOfNode(node);
   },
@@ -71,7 +73,12 @@ module.exports = {
     return getResourceStringsAlso(node);
   }
 };
+export default queries;
 ```
+
+## CLI Usage
+
+![doc-includes/cli.svg](./doc-includes/cli.svg)
 
 ## See also
 

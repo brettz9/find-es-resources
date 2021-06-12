@@ -1,5 +1,3 @@
-'use strict';
-
 const queries = {
   // Todo: For `TemplateLiteral`, grab multiple (unless a single)
   // Todo: For `BinaryExpression`, grab multiple
@@ -27,4 +25,4 @@ const queries = {
   }
 };
 
-module.exports = queries;
+export default queries;

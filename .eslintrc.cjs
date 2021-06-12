@@ -2,7 +2,7 @@
 
 module.exports = {
   root: true,
-  extends: ['ash-nazg/sauron-node-script-overrides'],
+  extends: ['ash-nazg/sauron-node-overrides'],
   settings: {
     polyfills: [
       'console',
@@ -10,14 +10,17 @@ module.exports = {
       'fetch',
       'Object.entries',
       'Promise.all',
-      'Set'
+      'Set',
+      'URL'
     ]
   },
   overrides: [
     {
       files: '*.md/*.js',
+      parserOptions: {
+        sourceType: 'module'
+      },
       globals: {
-        findESResources: true,
         filePath: true,
         esFileTraverseOptions: true,
         queryOptions: true,
@@ -26,6 +29,10 @@ module.exports = {
         getResourceStringsAlso: true
       },
       rules: {
+        'import/unambiguous': 'off',
+        'import/no-unresolved': ['error', {
+          ignore: ['find-es-resources']
+        }],
         'no-unused-vars': ['error', {varsIgnorePattern: 'arrayOfFileStrings'}],
         strict: 'off'
       }
@@ -33,18 +40,18 @@ module.exports = {
     {
       files: 'test/fixtures/**',
       extends: ['ash-nazg/sauron-node-overrides']
-    },
-    {
-      files: 'test/fixtures/queryModule.js',
-      extends: ['ash-nazg/sauron-node-script-overrides']
     }
   ],
   env: {
     es6: true
   },
+  parser: '@babel/eslint-parser',
   parserOptions: {
-    ecmaVersion: 2020
+    ecmaVersion: 2021
   },
   rules: {
+    'import/no-unresolved': ['error', {
+      ignore: ['fs/promises']
+    }]
   }
 };

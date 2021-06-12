@@ -1,5 +1,16 @@
 # CHANGES for `find-es-resources`
 
+## 1.0.0
+
+- Breaking change: Uses native ESM with `exports`
+- Breaking change: Exports named `findESResources` and additional
+    `saveESResources`
+- Breaking change: Expects ESM for `queryModule` option
+- Enhancement: Add binary
+- Enhancement: Switch to native ESM
+- npm: Update `es-file-traverse` (minor)
+- npm: Update devDeps.
+
 ## 0.3.0
 
 - Enhancement: Support `queryOptions` object argument with `queryModule`

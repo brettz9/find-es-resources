@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = {
+const queryModule = {
   [
   'VariableDeclarator:matches(' +
     '[id.type="Identifier"]' +
@@ -13,3 +11,5 @@ module.exports = {
     });
   }
 };
+
+export default queryModule;
