@@ -19,6 +19,7 @@
     "cover 100%"
   ],
   "scripts": {
+    "prepublishOnly": "pnpm i",
     "help": "./bin/index.js -h",
     "v": "./bin/index.js -v",
     "example": "./bin/index.js -i ./src/index.js -o output.js",
