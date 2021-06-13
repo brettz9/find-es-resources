@@ -143,12 +143,12 @@ const findESResources = async ({
   const ret = [...esResources];
 
   if (removeBasePath || addBasePath) {
-    return ret.map((item) => {
+    return [...new Set(ret.map((item) => {
       return addBasePath + item.replace(removeBasePath, '');
-    });
+    }))];
   }
 
-  return [...new Set(ret)];
+  return ret;
 };
 
 /**

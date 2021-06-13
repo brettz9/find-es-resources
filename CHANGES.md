@@ -1,5 +1,6 @@
 # CHANGES for `find-es-resources`
 
+## 1.1.4
 ## 1.1.3
 
 - Fix: Ensure items still unique after `removeBasePath`
