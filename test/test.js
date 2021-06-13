@@ -32,11 +32,11 @@ describe('findESResources', function () {
       htmlInput: getFixturePath('index.html')
     });
     expect(resources).to.have.lengthOf(7);
-    expect(resources[0]).to.match(/test\/fixtures\/index\.html/u);
-    expect(resources[1]).to.have.string('script1.js');
-    expect(resources[2]).to.have.string('script2.js');
-    expect(resources[3]).to.have.string('image1.png');
-    expect(resources[4]).to.have.string('image2.png');
+    expect(resources[0]).to.have.string('image1.png');
+    expect(resources[1]).to.have.string('image2.png');
+    expect(resources[2]).to.match(/test\/fixtures\/index\.html/u);
+    expect(resources[3]).to.have.string('script1.js');
+    expect(resources[4]).to.have.string('script2.js');
     expect(resources[5]).to.have.string('stylesheet1.css');
     expect(resources[6]).to.have.string('stylesheet2.css');
   });
@@ -52,7 +52,7 @@ describe('findESResources', function () {
       '/basePath/test1.json',
       '/basePath/test2.json'
     ]);
-    expect(resources[2]).to.match(/test\/fixtures\/fetches\.js/u);
+    expect(resources[0]).to.match(/test\/fixtures\/fetches\.js/u);
   });
 
   it('Finds resources (single import)', async function () {
@@ -64,8 +64,8 @@ describe('findESResources', function () {
       './test1.json',
       './test2.json'
     ]);
-    expect(resources[2]).to.match(/test\/fixtures\/importer\.js/u);
-    expect(resources[3]).to.match(/test\/fixtures\/fetches\.js/u);
+    expect(resources[2]).to.match(/test\/fixtures\/fetches\.js/u);
+    expect(resources[3]).to.match(/test\/fixtures\/importer\.js/u);
   });
 
   it('Finds resources (queryModule)', async function () {

@@ -1,5 +1,9 @@
 # CHANGES for `find-es-resources`
 
+## 1.2.0
+
+- Enhancement: Sort files for deterministic behavior
+
 ## 1.1.4
 ## 1.1.3
 
