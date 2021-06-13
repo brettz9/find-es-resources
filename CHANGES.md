@@ -1,5 +1,11 @@
 # CHANGES for `find-es-resources`
 
+## 1.1.0
+
+- Enhancement: Add `htmlInput` option
+- Fix: Use `path.resolve` instead of `path.join` to check relative to cwd. for
+    `queryModule`, `package.json` (and new `htmlInput`)
+
 ## 1.0.1
 
 - Fix: Absent `removeBasePath` or `addBasePath`

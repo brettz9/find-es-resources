@@ -33,6 +33,13 @@ const optionDefinitions = [
     typeLabel: '{underline path to input file}'
   },
   {
+    name: 'htmlInput', type: String,
+    description: 'HTML input file. `link[href]`, `img[src]`, and ' +
+      '`script[src]` will be checked in addition to adding the HTML file ' +
+      'itself.',
+    typeLabel: '{underline path to HTML input file}'
+  },
+  {
     name: 'removeBasePath', type: String,
     description: 'Base path used to strip off a full file path.',
     typeLabel: '{underline path}'

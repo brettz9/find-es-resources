@@ -27,6 +27,20 @@ describe('findESResources', function () {
     expect(resources[2]).to.match(/test\/fixtures\/fetches\.js/u);
   });
 
+  it('Finds HTML resources', async function () {
+    const resources = await findESResources({
+      htmlInput: getFixturePath('index.html')
+    });
+    expect(resources).to.have.lengthOf(7);
+    expect(resources[0]).to.match(/test\/fixtures\/index\.html/u);
+    expect(resources[1]).to.have.string('script1.js');
+    expect(resources[2]).to.have.string('script2.js');
+    expect(resources[3]).to.have.string('image1.png');
+    expect(resources[4]).to.have.string('image2.png');
+    expect(resources[5]).to.have.string('stylesheet1.css');
+    expect(resources[6]).to.have.string('stylesheet2.css');
+  });
+
   it('Finds resources (base paths)', async function () {
     const resources = await findESResources({
       input: getFixturePath('fetches.js'),

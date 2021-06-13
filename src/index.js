@@ -4,6 +4,7 @@ import path from 'path';
 
 import {traverse as esFileTraverse} from 'es-file-traverse';
 import esquery from 'esquery';
+import cheerio from 'cheerio';
 
 import queries from './queries.js';
 
@@ -38,6 +39,7 @@ const parsedQueries = parseQueries(queries);
 /**
  * @param {PlainObject} cfg
  * @param {string} cfg.input
+ * @param {string} [cfg.htmlInput]
  * @param {string} [cfg.removeBasePath=""]
  * @param {string} [cfg.addBasePath=""]
  * @param {external:EsFileTraverseOptions} [cfg.esFileTraverseOptions]
@@ -60,7 +62,7 @@ const parsedQueries = parseQueries(queries);
  * })();
  */
 const findESResources = async ({
-  input, removeBasePath = '', addBasePath = '',
+  input, htmlInput, removeBasePath = '', addBasePath = '',
   esFileTraverseOptions = {}, queryOptions = {}
 } = {}) => {
   const esResources = new Set();
@@ -68,7 +70,7 @@ const findESResources = async ({
   if (queryOptions.queryModule) {
     // eslint-disable-next-line no-unsanitized/method -- Runtime-specified
     queryModule = (await import(
-      path.join(
+      path.resolve(
         process.cwd(),
         queryOptions.queryModule
       )
@@ -77,44 +79,66 @@ const findESResources = async ({
 
   if (!input) {
     const pkg = JSON.parse(
-      await readFile(path.join(process.cwd(), './package.json'))
+      await readFile(path.resolve(process.cwd(), './package.json'))
     );
     input = pkg?.exports?.browser;
   }
 
-  const filesArr = await esFileTraverse({
-    node: true,
-    ...esFileTraverseOptions,
-    file: input,
-    // excludePathExpression: '',
-    callback (type, {ast}) {
-      if (type !== 'enter') {
-        return;
+  if (input) {
+    const filesArr = await esFileTraverse({
+      node: true,
+      ...esFileTraverseOptions,
+      file: input,
+      // excludePathExpression: '',
+      callback (type, {ast}) {
+        if (type !== 'enter') {
+          return;
+        }
+
+        const _parsedQueries = queryModule
+          ? [...parsedQueries, ...parseQueries(queryModule)]
+          : parsedQueries;
+
+        _parsedQueries.forEach(({parsedQuery, getPaths}) => {
+          esquery.traverse(
+            ast,
+            parsedQuery,
+            (node /* , parent, ancestry */) => {
+              // console.log('node', node);
+              getPaths(node).forEach((result) => {
+                esResources.add(result);
+              });
+            }
+          );
+        });
       }
+    });
 
-      const _parsedQueries = queryModule
-        ? [...parsedQueries, ...parseQueries(queryModule)]
-        : parsedQueries;
+    // Imported source files themselves
+    filesArr.forEach((_file) => {
+      esResources.add(_file);
+    });
+  }
 
-      _parsedQueries.forEach(({parsedQuery, getPaths}) => {
-        esquery.traverse(
-          ast,
-          parsedQuery,
-          (node /* , parent, ancestry */) => {
-            // console.log('node', node);
-            getPaths(node).forEach((result) => {
-              esResources.add(result);
-            });
-          }
+  if (htmlInput) {
+    const htmlPath = path.resolve(process.cwd(), htmlInput);
+    esResources.add(htmlPath);
+    const html = await readFile(htmlPath);
+    const $ = cheerio.load(html);
+    [
+      ['script[src]', 'src'],
+      ['img[src]', 'src'],
+      ['link[href]', 'href']
+    ].forEach(([sel, attrib]) => {
+      const elems = $(sel);
+      // eslint-disable-next-line unicorn/no-for-loop -- Not iterable
+      for (let i = 0; i < elems.length; i++) {
+        esResources.add(
+          path.resolve(path.dirname(htmlPath), elems[i].attribs[attrib])
         );
-      });
-    }
-  });
-
-  // Imported source files themselves
-  filesArr.forEach((_file) => {
-    esResources.add(_file);
-  });
+      }
+    });
+  }
 
   const ret = [...esResources];
 
