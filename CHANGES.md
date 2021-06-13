@@ -1,5 +1,9 @@
 # CHANGES for `find-es-resources`
 
+## 1.1.3
+
+- Fix: Ensure items still unique after `removeBasePath`
+
 ## 1.1.2
 
 - Fix: Exclude `data:` links and images

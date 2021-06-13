@@ -148,7 +148,7 @@ const findESResources = async ({
     });
   }
 
-  return ret;
+  return [...new Set(ret)];
 };
 
 /**
