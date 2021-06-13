@@ -155,6 +155,7 @@ const findESResources = async ({
  * @param {PlainObject} cfg
  * @param {string} cfg.output
  * @param {string} [cfg.input]
+ * @param {string} [cfg.htmlInput]
  * @param {string} [cfg.removeBasePath=""]
  * @param {string} [cfg.addBasePath=""]
  * @param {external:EsFileTraverseOptions} [cfg.esFileTraverseOptions]
@@ -162,11 +163,11 @@ const findESResources = async ({
  * @returns {Promise<string[]>}
  */
 const saveESResources = async ({
-  output, input, removeBasePath, addBasePath,
+  output, input, htmlInput, removeBasePath, addBasePath,
   esFileTraverseOptions, queryOptions
 }) => {
   const resources = await findESResources({
-    input, removeBasePath, addBasePath,
+    input, htmlInput, removeBasePath, addBasePath,
     esFileTraverseOptions, queryOptions
   });
   await writeFile(
