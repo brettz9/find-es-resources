@@ -127,8 +127,8 @@ const findESResources = async ({
     const $ = cheerio.load(html);
     [
       ['script[src]', 'src'],
-      ['img[src]', 'src'],
-      ['link[href]', 'href']
+      ['img[src]:not([src^="data:"])', 'src'],
+      ['link[href]:not([href^="data:"])', 'href']
     ].forEach(([sel, attrib]) => {
       const elems = $(sel);
       // eslint-disable-next-line unicorn/no-for-loop -- Not iterable

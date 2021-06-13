@@ -1,5 +1,9 @@
 # CHANGES for `find-es-resources`
 
+## 1.1.2
+
+- Fix: Exclude `data:` links and images
+
 ## 1.1.1
 
 - Fix: Ensure `saveESResources` is passing on `htmlInput` option
