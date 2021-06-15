@@ -1,5 +1,9 @@
 # CHANGES for `find-es-resources`
 
+## 2.0.1
+
+- Fix: Type of `queryModule`
+
 ## 2.0.0
 
 - Breaking change: Drop `queryOptions` in favor of directly passing in

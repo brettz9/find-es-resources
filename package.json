@@ -1,6 +1,6 @@
 {
   "name": "find-es-resources",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Brett Zamir <brettz9@yahoo.com>",
   "contributors": [],
   "description": "Find resource files within JavaScript files",
