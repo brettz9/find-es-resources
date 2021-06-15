@@ -1,0 +1,12 @@
+.someClass {
+  list-style-image: url("/icons/openWindow24.png");
+}
+
+#anotherItem {
+  background: "/images/hello.png";
+}
+
+.yetAnother {
+  color: red;
+  list-style: url(data:image/png;base64,iRxVB0);
+}

@@ -1,5 +1,9 @@
 # CHANGES for `find-es-resources`
 
+## 1.3.0
+
+- Enhancement: Support CSS input files
+
 ## 1.2.0
 
 - Enhancement: Sort files for deterministic behavior

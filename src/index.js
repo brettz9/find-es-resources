@@ -6,6 +6,8 @@ import {traverse as esFileTraverse} from 'es-file-traverse';
 import esquery from 'esquery';
 import cheerio from 'cheerio';
 
+import css from 'css';
+
 import queries from './queries.js';
 
 /**
@@ -40,6 +42,7 @@ const parsedQueries = parseQueries(queries);
  * @param {PlainObject} cfg
  * @param {string} cfg.input
  * @param {string} [cfg.htmlInput]
+ * @param {string[]} [cfg.cssInput]
  * @param {string} [cfg.removeBasePath=""]
  * @param {string} [cfg.addBasePath=""]
  * @param {external:EsFileTraverseOptions} [cfg.esFileTraverseOptions]
@@ -62,7 +65,7 @@ const parsedQueries = parseQueries(queries);
  * })();
  */
 const findESResources = async ({
-  input, htmlInput, removeBasePath = '', addBasePath = '',
+  input, htmlInput, cssInput, removeBasePath = '', addBasePath = '',
   esFileTraverseOptions = {}, queryOptions = {}
 } = {}) => {
   const esResources = new Set();
@@ -140,6 +143,52 @@ const findESResources = async ({
     });
   }
 
+  if (cssInput) {
+    await Promise.all(cssInput.map(async (cssFile) => {
+      esResources.add(path.resolve(process.cwd(), cssFile));
+      const cssContents = await readFile(cssFile, 'utf8');
+
+      const {
+        stylesheet: {rules}
+      } = css.parse(cssContents);
+
+      rules.forEach(({declarations}) => {
+        declarations.forEach(({property, value}) => {
+          // Todo: This only works if the properties use URLs and use single
+          //  ones; filed https://github.com/reworkcss/css/issues/155
+          if (![
+            'background',
+            'background-image',
+            'border',
+            'border-image',
+            'border-image-source',
+            'content',
+            'cursor',
+            'filter',
+            'list-style',
+            'list-style-image',
+            'mask',
+            'mask-image',
+            'offset-path',
+            'src', // @font-face
+            'symbols' // @counter-style
+          ].includes(property)) {
+            return;
+          }
+          const url = value
+            .replace(/^url\((?<quote>['"]?)(?<url>.*)\1?\)$/u, '$<url>')
+            .replace(/^(?<quote>['"]?)(?<url>.*)\1?$/u, '$<url>');
+          if (url.startsWith('data:')) {
+            return;
+          }
+          esResources.add(path.resolve(process.cwd(), url));
+        });
+      });
+
+      return css;
+    }));
+  }
+
   let ret = [...esResources];
 
   if (removeBasePath || addBasePath) {
@@ -156,6 +205,7 @@ const findESResources = async ({
  * @param {string} cfg.output
  * @param {string} [cfg.input]
  * @param {string} [cfg.htmlInput]
+ * @param {string[]} [cfg.cssInput]
  * @param {string} [cfg.removeBasePath=""]
  * @param {string} [cfg.addBasePath=""]
  * @param {external:EsFileTraverseOptions} [cfg.esFileTraverseOptions]
@@ -163,11 +213,11 @@ const findESResources = async ({
  * @returns {Promise<string[]>}
  */
 const saveESResources = async ({
-  output, input, htmlInput, removeBasePath, addBasePath,
+  output, input, htmlInput, cssInput, removeBasePath, addBasePath,
   esFileTraverseOptions, queryOptions
 }) => {
   const resources = await findESResources({
-    input, htmlInput, removeBasePath, addBasePath,
+    input, htmlInput, cssInput, removeBasePath, addBasePath,
     esFileTraverseOptions, queryOptions
   });
   await writeFile(

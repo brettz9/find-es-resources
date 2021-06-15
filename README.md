@@ -5,7 +5,7 @@ JavaScript. *It currently has very limited support for syntactic structures*
 *where the resource files can be found. See the list below.*
 
 It also allows some optional basic scanning of HTML for scripts, images, and
-stylesheets.
+stylesheets, and for CSS URLs.
 
 A main use case is to supply it to
 [workbox-build](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build)

@@ -40,6 +40,12 @@ const optionDefinitions = [
     typeLabel: '{underline path to HTML input file}'
   },
   {
+    name: 'cssInput', type: String, multiple: true,
+    description: 'CSS input file. URL fields will be checked in addition ' +
+      'to adding the CSS file itself.',
+    typeLabel: '{underline path to CSS input file}'
+  },
+  {
     name: 'removeBasePath', type: String,
     description: 'Base path used to strip off a full file path.',
     typeLabel: '{underline path}'

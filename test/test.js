@@ -41,6 +41,16 @@ describe('findESResources', function () {
     expect(resources[6]).to.have.string('stylesheet2.css');
   });
 
+  it('Finds CSS URLs', async function () {
+    const resources = await findESResources({
+      cssInput: [getFixturePath('index.css')]
+    });
+    expect(resources).to.have.lengthOf(3);
+    expect(resources[0]).to.have.string('/test/fixtures/index.css');
+    expect(resources[1]).to.have.string('/icons/openWindow24.png');
+    expect(resources[2]).to.have.string('/images/hello.png');
+  });
+
   it('Finds resources (base paths)', async function () {
     const resources = await findESResources({
       input: getFixturePath('fetches.js'),
