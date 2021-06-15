@@ -46,7 +46,7 @@ const parsedQueries = parseQueries(queries);
  * @param {string} [cfg.removeBasePath=""]
  * @param {string} [cfg.addBasePath=""]
  * @param {external:EsFileTraverseOptions} [cfg.esFileTraverseOptions]
- * @param {{queryModule: string}} [cfg.queryOptions={}]
+ * @param {string} [cfg.queryModule]
  * @returns {Promise<string[]>}
  * @example
  * import workboxBuild from 'workbox-build';
@@ -65,17 +65,19 @@ const parsedQueries = parseQueries(queries);
  * })();
  */
 const findESResources = async ({
-  input, htmlInput, cssInput, removeBasePath = '', addBasePath = '',
-  esFileTraverseOptions = {}, queryOptions = {}
+  input, htmlInput, cssInput, queryModule,
+  removeBasePath = '',
+  addBasePath = '',
+  esFileTraverseOptions = {}
 } = {}) => {
   const esResources = new Set();
-  let queryModule;
-  if (queryOptions.queryModule) {
+  let queryModuleResult;
+  if (queryModule) {
     // eslint-disable-next-line no-unsanitized/method -- Runtime-specified
-    queryModule = (await import(
+    queryModuleResult = (await import(
       path.resolve(
         process.cwd(),
-        queryOptions.queryModule
+        queryModule
       )
     )).default;
   }
@@ -98,8 +100,8 @@ const findESResources = async ({
           return;
         }
 
-        const _parsedQueries = queryModule
-          ? [...parsedQueries, ...parseQueries(queryModule)]
+        const _parsedQueries = queryModuleResult
+          ? [...parsedQueries, ...parseQueries(queryModuleResult)]
           : parsedQueries;
 
         _parsedQueries.forEach(({parsedQuery, getPaths}) => {
@@ -209,16 +211,16 @@ const findESResources = async ({
  * @param {string} [cfg.removeBasePath=""]
  * @param {string} [cfg.addBasePath=""]
  * @param {external:EsFileTraverseOptions} [cfg.esFileTraverseOptions]
- * @param {{queryModule: string}} [cfg.queryOptions]
+ * @param {string} [cfg.queryModule]
  * @returns {Promise<string[]>}
  */
 const saveESResources = async ({
   output, input, htmlInput, cssInput, removeBasePath, addBasePath,
-  esFileTraverseOptions, queryOptions
+  esFileTraverseOptions, queryModule
 }) => {
   const resources = await findESResources({
     input, htmlInput, cssInput, removeBasePath, addBasePath,
-    esFileTraverseOptions, queryOptions
+    esFileTraverseOptions, queryModule
   });
   await writeFile(
     output,

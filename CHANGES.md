@@ -1,5 +1,10 @@
 # CHANGES for `find-es-resources`
 
+## 2.0.0
+
+- Breaking change: Drop `queryOptions` in favor of directly passing in
+    `queryModule`
+
 ## 1.3.0
 
 - Enhancement: Support CSS input files

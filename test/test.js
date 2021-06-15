@@ -81,9 +81,7 @@ describe('findESResources', function () {
   it('Finds resources (queryModule)', async function () {
     const resources = await findESResources({
       input: getFixturePath('file-with-custom-items.js'),
-      queryOptions: {
-        queryModule: './test/fixtures/queryModule.js'
-      }
+      queryModule: './test/fixtures/queryModule.js'
     });
     expect(resources).to.have.lengthOf(4);
     expect(resources).to.include.members([

@@ -67,10 +67,9 @@ const optionDefinitions = [
     typeLabel: '{underline JSON object string}'
   },
   {
-    name: 'queryOptions', type: JSONParser,
-    description: 'Additional `queryOptions`. ' +
-      'Note that any items discovered on the object returned by the ' +
-      'requiring of the `queryModule` module will be merged onto the ' +
+    name: 'queryModule', type: JSONParser,
+    description: 'Note that any items discovered on the object returned by ' +
+      'the requiring of the `queryModule` module will be merged onto the ' +
       'built-in queries of `find-es-resources`.',
     typeLabel: '{underline JSON object string}'
   }
