@@ -1,5 +1,9 @@
 # CHANGES for `find-es-resources`
 
+## 3.0.2
+
+- Fix: Bump `es-file-traverse` so that `singleFiles` works automatically
+
 ## 3.0.1
 
 - Fix: Properly utilize `singleFiles`

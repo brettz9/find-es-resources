@@ -11,7 +11,7 @@ specifiers:
   command-line-basics: ^1.0.1
   command-line-publish: ^1.0.0
   css: ^3.0.0
-  es-file-traverse: ^1.0.0
+  es-file-traverse: ^1.0.1
   eslint: ^7.29.0
   eslint-config-ash-nazg: 29.17.0
   eslint-config-standard: ^16.0.3
@@ -37,7 +37,7 @@ dependencies:
   cheerio: 1.0.0-rc.10
   command-line-basics: 1.0.1
   css: 3.0.0
-  es-file-traverse: 1.0.0_57ebbcfc7ba8b506b3cc77b673759893
+  es-file-traverse: 1.0.1_57ebbcfc7ba8b506b3cc77b673759893
   esquery: 1.4.0
   globby: 11.0.4
 
@@ -1555,8 +1555,8 @@ packages:
       unbox-primitive: 1.0.1
     dev: true
 
-  /es-file-traverse/1.0.0_57ebbcfc7ba8b506b3cc77b673759893:
-    resolution: {integrity: sha512-KxkjA+4r4uakjcv30EKfcymvxWvNfMqGY58Jn9t40ixDK3Md6rI90SjAnptTNX5Ximb4kfa57K9c86balA3cag==}
+  /es-file-traverse/1.0.1_57ebbcfc7ba8b506b3cc77b673759893:
+    resolution: {integrity: sha512-ub/AJh9CkRb47JkK1XA0kWipO7dDiLRkHIKj4ep05bEcnf+MGVorec8GlLg00I9KXoTQDmlIQs+n9ZaVN4psHw==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:

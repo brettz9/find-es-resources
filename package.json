@@ -1,6 +1,6 @@
 {
   "name": "find-es-resources",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "author": "Brett Zamir <brettz9@yahoo.com>",
   "contributors": [],
   "description": "Find resource files within JavaScript files",
@@ -46,7 +46,7 @@
     "cheerio": "^1.0.0-rc.10",
     "command-line-basics": "^1.0.1",
     "css": "^3.0.0",
-    "es-file-traverse": "^1.0.0",
+    "es-file-traverse": "^1.0.1",
     "esquery": "^1.4.0",
     "globby": "^11.0.4"
   },
