@@ -1,5 +1,9 @@
 # CHANGES for `find-es-resources`
 
+## 3.0.1
+
+- Fix: Properly utilize `singleFiles`
+
 ## 3.0.0
 
 ### User-facing

@@ -103,6 +103,7 @@ const findESResources = async ({
     const filesArrs = await Promise.all(files.map((file) => {
       return esFileTraverse({
         node: true,
+        singleTraverse: singleFiles,
         ...esFileTraverseOptions,
         file,
         // excludePathExpression: '',
