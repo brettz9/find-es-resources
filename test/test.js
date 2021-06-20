@@ -29,7 +29,7 @@ describe('findESResources', function () {
 
   it('Finds HTML resources', async function () {
     const resources = await findESResources({
-      htmlInput: getFixturePath('index.html')
+      htmlInput: [getFixturePath('index.html')]
     });
     expect(resources).to.have.lengthOf(7);
     expect(resources[0]).to.have.string('image1.png');

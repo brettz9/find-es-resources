@@ -28,12 +28,27 @@ const optionDefinitions = [
     typeLabel: '{underline file path}'
   },
   {
-    name: 'input', type: String, alias: 'i',
+    name: 'input', type: String, alias: 'i', multiple: true,
     description: 'Input file. Will default to checking `exports.browser`.',
     typeLabel: '{underline path to input file}'
   },
   {
-    name: 'htmlInput', type: String,
+    name: 'noGlobs', type: Boolean,
+    description: '`input` files will be treated by default as globs. Set ' +
+      'this to `true` to disable. Defaults to `false`.'
+  },
+  {
+    name: 'singleFiles', type: Boolean,
+    description: 'Set to `true` to avoid traversing import chain. Defaults ' +
+      'to `false`.'
+  },
+  {
+    name: 'cwd', type: String,
+    description: 'Current working directory; defaults to `process.cwd()`',
+    typeLabel: '{underline path}'
+  },
+  {
+    name: 'htmlInput', type: String, multiple: true,
     description: 'HTML input file. `link[href]`, `img[src]`, and ' +
       '`script[src]` will be checked in addition to adding the HTML file ' +
       'itself.',

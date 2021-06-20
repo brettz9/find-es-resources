@@ -1,5 +1,14 @@
 # CHANGES for `find-es-resources`
 
+## 3.0.0
+
+### User-facing
+
+- Enhancement: Allow CLI to avoid saving file/`output`
+- Enhancement: Support multiple inputs/globs (and `noGlobs` option);
+    support `cwd` and `singleFiles`; multiple HTML inputs
+- npm: Update `es-file-traverse` (major)
+
 ## 2.0.1
 
 - Fix: Type of `queryModule`

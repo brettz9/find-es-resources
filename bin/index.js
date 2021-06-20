@@ -5,7 +5,7 @@ import {fileURLToPath} from 'url';
 
 import {cliBasics} from 'command-line-basics';
 
-import {saveESResources} from '../src/index.js';
+import {findESResources, saveESResources} from '../src/index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -19,7 +19,8 @@ if (!optionDefinitions) { // cliBasics handled
 }
 
 try {
-  const resources = await saveESResources(optionDefinitions);
+  const method = optionDefinitions.output ? saveESResources : findESResources;
+  const resources = await method(optionDefinitions);
   // eslint-disable-next-line no-console -- CLI
   console.log('Resource files', resources);
 } catch (err) {
