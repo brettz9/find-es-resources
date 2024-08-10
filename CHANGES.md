@@ -1,5 +1,14 @@
 # CHANGES for `find-es-resources`
 
+## 4.0.0
+
+BREAKING CHANGES:
+- Requires Node 18
+
+- fix: update cheerio and fix API
+- chore: update command-line-basics, es-file-traverse, esquery, globby, devDeps.
+- chore: eslint 9/flat config
+
 ## 3.0.2
 
 - Fix: Bump `es-file-traverse` so that `singleFiles` works automatically

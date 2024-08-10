@@ -29,14 +29,12 @@ welcome (with tests) for supporting other types of structures.
     a `fetch` call:
 
 ```js
-(async () => {
 await Promise.all([
   './test1.json',
   './test2.json'
 ].map((path) => {
   return fetch(path);
 }));
-})();
 ```
 
 ## Install
@@ -50,7 +48,6 @@ npm i find-es-resources
 ```js
 import {findESResources} from 'find-es-resources';
 
-(async () => {
 const arrayOfFileStrings = await findESResources({
   // File as a string path
   input: filePath,
@@ -65,7 +62,6 @@ const arrayOfFileStrings = await findESResources({
     queryModule: moduleString
   }
 });
-})();
 
 // Module pointed to by `moduleString`:
 const queries = {

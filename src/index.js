@@ -4,8 +4,8 @@ import path from 'path';
 
 import {traverse as esFileTraverse} from 'es-file-traverse';
 import esquery from 'esquery';
-import cheerio from 'cheerio';
-import globby from 'globby';
+import {load} from 'cheerio';
+import {globby} from 'globby';
 
 import css from 'css';
 
@@ -40,17 +40,17 @@ const parsedQueries = parseQueries(queries);
  */
 
 /**
- * @param {PlainObject} cfg
+ * @param {object} cfg
  * @param {string[]} cfg.input
  * @param {string[]} [cfg.htmlInput]
  * @param {string[]} [cfg.cssInput]
- * @param {string} [cfg.removeBasePath=""]
- * @param {string} [cfg.addBasePath=""]
- * @param {external:EsFileTraverseOptions} [cfg.esFileTraverseOptions]
+ * @param {string} [cfg.removeBasePath]
+ * @param {string} [cfg.addBasePath]
+ * @param {EsFileTraverseOptions} [cfg.esFileTraverseOptions]
  * @param {string} [cfg.queryModule]
  * @param {boolean} [cfg.noGlobs]
  * @param {booelan} [cfg.singleFiles]
- * @param {string} [cfg.cwd=process.cwd()]
+ * @param {string} [cfg.cwd]
  * @returns {Promise<string[]>}
  * @example
  * import workboxBuild from 'workbox-build';
@@ -78,7 +78,7 @@ const findESResources = async ({
   const esResources = new Set();
   let queryModuleResult;
   if (queryModule) {
-    // eslint-disable-next-line no-unsanitized/method -- Runtime-specified
+    // // eslint-disable-next-line no-unsanitized/method -- Runtime-specified
     queryModuleResult = (await import(
       path.resolve(
         process.cwd(),
@@ -154,7 +154,7 @@ const findESResources = async ({
     htmlFileContents.forEach(({html, htmlPath}) => {
       // Add now for consistent ordering (processing synchronously)
       esResources.add(htmlPath);
-      const $ = cheerio.load(html);
+      const $ = load(html);
       [
         ['script[src]', 'src'],
         ['img[src]:not([src^="data:"])', 'src'],
@@ -203,9 +203,9 @@ const findESResources = async ({
           ].includes(property)) {
             return;
           }
-          const url = value
-            .replace(/^url\((?<quote>['"]?)(?<url>.*)\1?\)$/u, '$<url>')
-            .replace(/^(?<quote>['"]?)(?<url>.*)\1?$/u, '$<url>');
+          const url = value.
+            replace(/^url\((?<quote>['"]?)(?<url>.*)\1?\)$/u, '$<url>').
+            replace(/^(?<quote>['"]?)(?<url>.*)\1?$/u, '$<url>');
           if (url.startsWith('data:')) {
             return;
           }
@@ -229,18 +229,18 @@ const findESResources = async ({
 };
 
 /**
- * @param {PlainObject} cfg
+ * @param {object} cfg
  * @param {string} cfg.output
  * @param {string[]} [cfg.input]
  * @param {string[]} [cfg.htmlInput]
  * @param {string[]} [cfg.cssInput]
- * @param {string} [cfg.removeBasePath=""]
- * @param {string} [cfg.addBasePath=""]
- * @param {external:EsFileTraverseOptions} [cfg.esFileTraverseOptions]
+ * @param {string} [cfg.removeBasePath]
+ * @param {string} [cfg.addBasePath]
+ * @param {EsFileTraverseOptions} [cfg.esFileTraverseOptions]
  * @param {string} [cfg.queryModule]
  * @param {boolean} [cfg.noGlobs]
  * @param {booelan} [cfg.singleFiles]
- * @param {string} [cfg.cwd=process.cwd()]
+ * @param {string} [cfg.cwd]
  * @returns {Promise<string[]>}
  */
 const saveESResources = async ({

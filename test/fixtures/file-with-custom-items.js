@@ -1,6 +1,5 @@
-/* eslint-disable import/unambiguous -- Test file */
+// /* eslint-disable import/unambiguous -- Test file */
 
-(async () => {
 const use = function () {
   // Do something
 };
@@ -16,4 +15,3 @@ await Promise.all([
 }));
 
 use(resources);
-})();

@@ -1,6 +1,6 @@
 import {join, dirname} from 'path';
-
 import {fileURLToPath} from 'url';
+import {expect} from 'chai';
 
 import {findESResources} from '../src/index.js';
 

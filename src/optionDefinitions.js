@@ -7,16 +7,16 @@ const pkg = JSON.parse(
 const JSONParser = JSON.parse.bind(JSON);
 
 const getChalkTemplateSingleEscape = (s) => {
-  return s.replace(/[{}\\]/gu, (ch) => {
+  return s.replaceAll(/[{}\\]/gu, (ch) => {
     return `\\u${ch.codePointAt().toString(16).padStart(4, '0')}`;
   });
 };
 
-// Todo: We really need a comamnd-line-args-TO-typedef-jsdoc generator!
+// Todo: We really need a command-line-args-TO-typedef-jsdoc generator!
 //  Might see about https://github.com/dsheiko/bycontract/
 /* eslint-disable jsdoc/require-property -- Should get property from schema */
 /**
-* @typedef {PlainObject} PreassembledWorkerBoxesOptions
+* @typedef {object} PreassembledWorkerBoxesOptions
 */
 /* eslint-enable jsdoc/require-property -- Should get property from schema */
 
