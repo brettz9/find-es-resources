@@ -1,16 +1,14 @@
 #!/usr/bin/env node
 
-import {join, dirname} from 'path';
-import {fileURLToPath} from 'url';
-
 import {cliBasics} from 'command-line-basics';
 
 import {findESResources, saveESResources} from '../src/index.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
 const optionDefinitions = await cliBasics(
-  join(__dirname, '../src/optionDefinitions.js')
+  import.meta.dirname + '/../src/optionDefinitions.js',
+  {
+    packageJsonPath: import.meta.dirname + '/../package.json'
+  }
 );
 
 if (!optionDefinitions) { // cliBasics handled

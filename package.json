@@ -1,6 +1,6 @@
 {
   "name": "find-es-resources",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "author": "Brett Zamir <brettz9@yahoo.com>",
   "contributors": [],
   "description": "Find resource files within JavaScript files",
@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/brettz9/find-es-resources",
   "engines": {
-    "node": ">=18.0.0"
+    "node": "^20.11.0 || >= 22.0.0"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
