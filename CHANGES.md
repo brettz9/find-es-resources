@@ -1,11 +1,12 @@
 # CHANGES for `find-es-resources`
 
-## 5.0.0 (unreleased)
+## 5.0.0
 
 BREAKING CHANGES:
 - Requires Node ^20.11.0 || >= 22.0.0
 
 - fix: supply `command-line-basics` notifier info
+- chore: update deps. and devDeps.
 
 ## 4.0.0
 
